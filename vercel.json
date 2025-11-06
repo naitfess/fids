@@ -1,7 +1,6 @@
 {
     "version": 2,
     "framework": null,
-    "installCommand": "composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader",
     "functions": {
         "api/**/*.php": {
             "runtime": "vercel-php@0.7.4"
@@ -12,7 +11,7 @@
         { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "public": true,
-    "buildCommand": "composer dump-autoload && vite build",
+    "buildCommand": "vite build",
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
