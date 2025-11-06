@@ -32,6 +32,6 @@
         "DB_HOST": "3y0dni.h.filess.io",
         "DB_PORT": "3306",
         "DB_DATABASE": "fids_briefbuymy",
-        "DB_USERNAME": "fids_briefbuymy",
+        "DB_USERNAME": "fids_briefbuymy"
     }
 }
