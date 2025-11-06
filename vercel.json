@@ -1,7 +1,7 @@
 {
     "version": 2,
     "framework": null,
-    
+    "installCommand": "composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader",
     "functions": {
         "api/**/*.php": {
             "runtime": "vercel-php@0.7.4"
@@ -12,7 +12,7 @@
         { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "public": true,
-    "buildCommand": "vite build",
+    "buildCommand": "composer dump-autoload && vite build",
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
@@ -33,6 +33,5 @@
         "DB_PORT": "3306",
         "DB_DATABASE": "fids_briefbuymy",
         "DB_USERNAME": "fids_briefbuymy",
-        "NODE_VERSION": "20.x"
     }
 }
