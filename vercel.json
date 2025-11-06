@@ -1,8 +1,11 @@
 {
     "version": 2,
     "framework": null,
+    
     "functions": {
-        "api/index.php": { "runtime": "vercel-php@0.7.0" }
+        "api/**/*.php": {
+            "runtime": "@vercel-community/php@0.7.3"
+        }
     },
     "routes": [
         { "src": "/build/(.*)", "dest": "/public/build/" },
@@ -29,6 +32,7 @@
         "DB_HOST": "3y0dni.h.filess.io",
         "DB_PORT": "3306",
         "DB_DATABASE": "fids_briefbuymy",
-        "DB_USERNAME": "fids_briefbuymy"
+        "DB_USERNAME": "fids_briefbuymy",
+        "NODE_VERSION": "20.x"
     }
 }
