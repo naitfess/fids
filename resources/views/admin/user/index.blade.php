@@ -52,7 +52,7 @@
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>
-                                        <div class="logo-sm">
+                                        <div class="logo-sm d-flex align-items-center">
                                             <img src="{{ asset('uploads/' . $user->logo) }}" alt="">
                                         </div>
                                     </td>
@@ -116,6 +116,7 @@
                         </div>
                         <div class="mt-3">
                             <label for="logo" class="form-label text-sm">Logo</label>
+                            <small>PNG, 300x300</small>
                             <input type="file" class="dropify" accept="image/*" data-default-file=""
                                 name="logo" />
                             <div class="text-sm text-danger" id="logoError"></div>

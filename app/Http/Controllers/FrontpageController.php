@@ -11,13 +11,30 @@ class FrontpageController extends Controller
 {
     public function index()
     {
-        $base = Flight::query()
-        ->with(['origin', 'destination', 'origin.weatherReport', 'destination.weatherReport'])
+        $flights = Flight::query()
+        ->with(['user', 'origin', 'origin.weatherReport'])
         ->whereDate('scheduled_time', Carbon::today())
-        ->orderBy('scheduled_time', 'desc');
+        ->orderBy('scheduled_time', 'desc')
+        ->where('flight_type', 'arrival')
+        ->paginate(10);
 
-        $data['arrival_flights'] = (clone $base)->where('flight_type', 'arrival')->paginate(10, ['*'], 'arrival_page');
-        $data['departure_flights'] = (clone $base)->where('flight_type', 'departure')->paginate(10, ['*'], 'departure_page');
+        $data['flights'] = $flights;
+        $data['type'] = 'arrival';
+
+        return view('frontpage.index', $data);
+    }
+
+    public function departure()
+    {
+        $flights = Flight::query()
+        ->with(['user', 'destination', 'destination.weatherReport'])
+        ->whereDate('scheduled_time', Carbon::today())
+        ->orderBy('scheduled_time', 'desc')
+        ->where('flight_type', 'departure')
+        ->paginate(10);
+
+        $data['flights'] = $flights;
+        $data['type'] = 'departure';
 
         return view('frontpage.index', $data);
     }

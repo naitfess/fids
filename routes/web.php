@@ -6,6 +6,8 @@ use App\Http\Controllers\FrontpageController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', [FrontpageController::class, 'index'])->name('frontpage');
+Route::get('/arrival', [FrontpageController::class, 'index'])->name('frontpage.arrival');
+Route::get('/departure', [FrontpageController::class, 'departure'])->name('frontpage.departure');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

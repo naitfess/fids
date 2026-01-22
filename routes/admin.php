@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AirportController;
+use App\Http\Controllers\FlightController;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/', function () {
@@ -27,6 +28,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::delete('/{airportId}', 'destroy')->name('destroy');
     });
 
+    Route::prefix('flight')->name('admin.flight.')->controller(FlightController::class)->group(function () {
+        Route::get('/', 'adminIndex')->name('index');
+        Route::get('/create', 'adminCreate')->name('create');
+        Route::post('/', 'adminStore')->name('store');
+        Route::get('/{flightId}/edit', 'adminEdit')->name('edit');
+        Route::put('/{flightId}', 'adminUpdate')->name('update');
+        Route::patch('/{flightId}', 'adminChangeStatus')->name('changeStatus');
+        Route::delete('/{flightId}', 'adminDestroy')->name('destroy');
+    });
 });
 
 

@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+body, button, input, textarea {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .form-control:focus, .form-select:focus{
     border-color: #dee2e6 !important;
     box-shadow: none !important;
@@ -21,8 +31,56 @@
 }
 
 .logo-sm{
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
+    width: 75px;
+    max-height: 75px;
     object-fit: cover;
+}
+
+.frontpage-bg{
+    background: linear-gradient(
+        to bottom,
+        #c7def0 0%,
+        #e6eff8 50%,
+        #c7def0 100%
+    );
+}
+
+.table-dark
+ {
+    --bs-table-color: #fff;
+    --bs-table-bg: #276ca2 !important;
+    --bs-table-border-color: #c7def0 !important;
+}
+
+.table-dark th{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.br-tl{
+    border-radius: .5rem 0 0 0;
+}
+
+.br-tr{
+    border-radius: 0 .5rem 0 0;
+}
+
+.br-br{
+    border-radius: 0 0 .5rem 0;
+}
+
+.br-bl{
+    border-radius: 0 0 0 .5rem;
+}
+
+
+.logo-front{
+    max-width: 100% !important;
+    height: 75px !important;
+}
+
+@media (max-width: 576px) {
+    .logo-front {
+        height: 50px !important;
+    }
 }
