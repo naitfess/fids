@@ -21,9 +21,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     Route::prefix('airport')->name('admin.airport.')->controller(AirportController::class)->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
+        // Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
-        Route::get('/{airportId}/edit', 'edit')->name('edit');
+        // Route::get('/{airportId}/edit', 'edit')->name('edit');
         Route::put('/{airportId}', 'update')->name('update');
         Route::delete('/{airportId}', 'destroy')->name('destroy');
     });

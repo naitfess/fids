@@ -41,7 +41,7 @@ class UserController extends Controller
 
         $data = [
             'name' => $request->name,
-            'role' => 'airlines',
+            'role' => 'staff',
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'logo' => $logoPath,
