@@ -16,26 +16,29 @@
                     <div>
                         <ul class="nav nav-underline">
                             <li class="nav-item">
-                                <button class="nav-link text-black active" id="arrival-tab">Arrival</button>
+                                <button type="button" class="nav-link text-black" id="arrival-tab">Arrival</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link text-black" id="departure-tab">Departure</button>
+                                <button type="button" class="nav-link text-black" id="departure-tab">Departure</button>
                             </li>
                         </ul>
                     </div>
                     <div class="d-flex gap-2">
-                        <form action="" class="d-flex gap-2">
+                        <form method="GET" action="{{ route('admin.flight.index') }}" class="d-flex gap-2">
+                            <input type="hidden" name="tab" id="tab-input" value="{{ request('tab', 'arrival') }}">
                             <div class="min-width-250">
                                 <input type="text" class="form-control" placeholder="Search by flight number"
                                     name="search" value="{{ request('search') }}">
                             </div>
-                            <div class="">
+                            <div>
                                 <select class="form-select" name="scheduled_time">
-                                    <option value="">Today</option>
-                                    <option value="">All Time</option>
+                                    <option value="today"
+                                        {{ request('scheduled_time', 'today') === 'today' ? 'selected' : '' }}>Today</option>
+                                    <option value="alltime" {{ request('scheduled_time') === 'alltime' ? 'selected' : '' }}>
+                                        All Time</option>
                                 </select>
                             </div>
-                            <div class="">
+                            <div class="dropdown">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="dropdown"
                                     aria-expanded="false" data-bs-auto-close="outside">
                                     <i class="bi bi-funnel"></i>
@@ -45,25 +48,24 @@
                                     <div class="mb-1">
                                         <label for="gate" class="form-label mb-0 text-sm">Gate</label>
                                         <select class="form-select form-select-sm" name="gate">
-                                            <option value="" selected>All Gate</option>
-                                            <option value="">1</option>
-                                            <option value="">2</option>
-                                            <option value="">3</option>
-                                            <option value="">4</option>
-                                            <option value="">5</option>
+                                            <option value="" {{ request('gate') === '' ? 'selected' : '' }}>All Gate
+                                            </option>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <option value="{{ $i }}"
+                                                    {{ request('gate') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                            @endfor
                                         </select>
                                     </div>
                                     <div class="mb-1">
                                         <label for="status" class="form-label mb-0 text-sm">Status</label>
                                         <select class="form-select form-select-sm" name="status">
-                                            <option value="" selected>All Status</option>
-                                            <option value="Check-in Open">Check-in Open</option>
-                                            <option value="Check-in Closed">Check-in Closed</option>
-                                            <option value="Boarding">Boarding</option>
-                                            <option value="Final Call">Final Call</option>
-                                            <option value="Departed">Departed</option>
-                                            <option value="Delayed">Delayed</option>
-                                            <option value="Cancelled">Cancelled</option>
+                                            <option value="" {{ request('status') === '' ? 'selected' : '' }}>All Status
+                                            </option>
+                                            @foreach (['Check-in Open', 'Check-in Closed', 'Boarding', 'Final Call', 'Departed', 'Delayed', 'Cancelled'] as $st)
+                                                <option value="{{ $st }}"
+                                                    {{ request('status') === $st ? 'selected' : '' }}>{{ $st }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="text-end mt-2">
@@ -79,7 +81,8 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item"
-                                        href="{{ route('admin.flight.create', ['flight_type' => 'arrival']) }}">Arrival</a></li>
+                                        href="{{ route('admin.flight.create', ['flight_type' => 'arrival']) }}">Arrival</a>
+                                </li>
                                 <li><a class="dropdown-item"
                                         href="{{ route('admin.flight.create', ['flight_type' => 'departure']) }}">Departure</a>
                                 </li>
@@ -126,8 +129,8 @@
                                         </a>
                                         <a href="{{ route('admin.flight.edit', $arrival_flight->id) }}"
                                             class="btn btn-sm btn-warning"><i class="bi bi-sliders2"></i></a>
-                                        <form action="{{ route('admin.flight.destroy', $arrival_flight->id) }}" method="POST"
-                                            class="d-inline">
+                                        <form action="{{ route('admin.flight.destroy', $arrival_flight->id) }}"
+                                            method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger"
@@ -247,23 +250,37 @@
             const departureTab = document.getElementById('departure-tab');
             const arrivalTable = document.getElementById('arrival-flights-table');
             const departureTable = document.getElementById('departure-flights-table');
+            const tabInput = document.getElementById('tab-input');
 
-            // Show arrival flights by default
-            arrivalTable.style.display = 'block';
-            departureTable.style.display = 'none';
+            const setTab = (tab) => {
+                if (tab === 'departure') {
+                    arrivalTable.style.display = 'none';
+                    departureTable.style.display = 'block';
+                    departureTab.classList.add('active');
+                    arrivalTab.classList.remove('active');
+                } else {
+                    arrivalTable.style.display = 'block';
+                    departureTable.style.display = 'none';
+                    arrivalTab.classList.add('active');
+                    departureTab.classList.remove('active');
+                    tab = 'arrival';
+                }
+                if (tabInput) {
+                    tabInput.value = tab;
+                }
+            };
 
-            arrivalTab.addEventListener('click', function() {
-                arrivalTable.style.display = 'block';
-                departureTable.style.display = 'none';
-                arrivalTab.classList.add('active');
-                departureTab.classList.remove('active');
+            // initial tab from query
+            setTab(tabInput?.value || 'arrival');
+
+            arrivalTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                setTab('arrival');
             });
 
-            departureTab.addEventListener('click', function() {
-                arrivalTable.style.display = 'none';
-                departureTable.style.display = 'block';
-                departureTab.classList.add('active');
-                arrivalTab.classList.remove('active');
+            departureTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                setTab('departure');
             });
 
             // Handle Change Status Modal
@@ -298,7 +315,8 @@
                     } else {
                         delayedInput.value = '';
                     }
-                    const actionUrl = "{{ route('admin.flight.changeStatus', ['flightId' => ':id']) }}"
+                    const actionUrl =
+                        "{{ route('admin.flight.changeStatus', ['flightId' => ':id']) }}"
                         .replace(':id', flightId);
                     changeStatusForm.action = actionUrl;
                     let matched = false;

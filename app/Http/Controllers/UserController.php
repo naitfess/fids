@@ -10,9 +10,16 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['users'] = User::paginate(10);
+        $search = $request->search;
+        $data['users'] = User::when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            })
+            ->paginate(10)
+            ->appends(['search' => $search]);
         return view('admin.user.index', $data);
     }
 

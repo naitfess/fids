@@ -37,9 +37,9 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Code</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Area Code</th>
+                                {{-- <th scope="col">Area Code</th>
                                 <th scope="col">Latitude</th>
-                                <th scope="col">Longitude</th>
+                                <th scope="col">Longitude</th> --}}
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -54,9 +54,9 @@
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ $airport->code }}</td>
                                     <td>{{ $airport->name }}</td>
-                                    <td>{{ $airport->area_code }}</td>
+                                    {{-- <td>{{ $airport->area_code }}</td>
                                     <td>{{ $airport->latitude }}</td>
-                                    <td>{{ $airport->longitude }}</td>
+                                    <td>{{ $airport->longitude }}</td> --}}
                                     <td class="text-end">
                                         <button data-bs-toggle="modal" data-bs-target="#editAirport"
                                             data-id="{{ $airport->id }}" data-code="{{ $airport->code }}"
@@ -108,7 +108,7 @@
                                 name="name" value="{{ old('name') }}">
                             <div class="text-sm text-danger" id="nameError"></div>
                         </div>
-                        <div class="mt-3">
+                        {{-- <div class="mt-3">
                             <label for="area_code" class="form-label text-sm">Area Code</label>
                             <input type="text" class="form-control" id="area_code" placeholder="Area Code"
                                 name="area_code" value="{{ old('area_code') }}">
@@ -125,7 +125,7 @@
                             <input type="text" class="form-control" id="longitude" placeholder="Longitude"
                                 name="longitude" value="{{ old('longitude') }}">
                             <div class="text-sm text-danger" id="longitudeError"></div>
-                        </div>
+                        </div> --}}
                         <div class="text-end mt-3">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-primary" id="submitAddAirport">Submit</button>
@@ -159,7 +159,7 @@
                                 name="name" value="{{ old('name') }}">
                             <div class="text-sm text-danger" id="nameError-edit"></div>
                         </div>
-                        <div class="mt-3">
+                        {{-- <div class="mt-3">
                             <label for="area_code-edit" class="form-label text-sm">Area Code</label>
                             <input type="text" class="form-control" id="area_code-edit" placeholder="Area Code"
                                 name="area_code" value="{{ old('area_code') }}">
@@ -176,7 +176,7 @@
                             <input type="text" class="form-control" id="longitude-edit" placeholder="Longitude"
                                 name="longitude" value="{{ old('longitude') }}">
                             <div class="text-sm text-danger" id="longitudeError-edit"></div>
-                        </div>
+                        </div> --}}
                         <div class="text-end mt-3">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-primary" id="submitEditAirport">Submit</button>
@@ -199,9 +199,9 @@
                 // Clear previous error messages
                 $('#codeError').text('');
                 $('#nameError').text('');
-                $('#area_codeError').text('');
-                $('#latitudeError').text('');
-                $('#longitudeError').text('');
+                // $('#area_codeError').text('');
+                // $('#latitudeError').text('');
+                // $('#longitudeError').text('');
 
                 $.ajax({
                     url: $(form).attr('action'),
@@ -240,15 +240,15 @@
                 var id = $(this).data('id');
                 var code = $(this).data('code');
                 var name = $(this).data('name');
-                var areaCode = $(this).data('area-code');
-                var latitude = $(this).data('latitude');
-                var longitude = $(this).data('longitude');
+                // var areaCode = $(this).data('area-code');
+                // var latitude = $(this).data('latitude');
+                // var longitude = $(this).data('longitude');
 
                 $('#code-edit').val(code);
                 $('#name-edit').val(name);
-                $('#area_code-edit').val(areaCode);
-                $('#latitude-edit').val(latitude);
-                $('#longitude-edit').val(longitude);
+                // $('#area_code-edit').val(areaCode);
+                // $('#latitude-edit').val(latitude);
+                // $('#longitude-edit').val(longitude);
 
                 $('#editAirportForm').attr('action', '/admin/airport/' + id);
             });
@@ -261,9 +261,9 @@
                 // Clear previous error messages
                 $('#codeError-edit').text('');
                 $('#nameError-edit').text('');
-                $('#area_codeError-edit').text('');
-                $('#latitudeError-edit').text('');
-                $('#longitudeError-edit').text('');
+                // $('#area_codeError-edit').text('');
+                // $('#latitudeError-edit').text('');
+                // $('#longitudeError-edit').text('');
 
                 $.ajax({
                     url: $(form).attr('action'),

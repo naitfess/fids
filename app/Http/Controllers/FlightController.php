@@ -167,12 +167,40 @@ class FlightController extends Controller
     }
 
     //admin
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        $base = Flight::with(['origin', 'destination'])->orderBy('scheduled_time', 'desc');
+        $data = [];
+        $data['search']        = $request->get('search');
+        $data['scheduledTime'] = $request->get('scheduled_time', 'today');
+        $data['gate']          = $request->get('gate');
+        $data['status']        = $request->get('status');
+        $data['tab']           = in_array($request->get('tab'), ['arrival', 'departure'], true)
+            ? $request->get('tab')
+            : 'arrival';
 
-        $data['arrival_flights'] = (clone $base)->where('flight_type', 'arrival')->paginate(10, ['*'], 'arrival_page');
-        $data['departure_flights'] = (clone $base)->where('flight_type', 'departure')->paginate(10, ['*'], 'departure_page');
+        $baseFilter = function ($query) use ($data) {
+            $query->when($data['search'], fn($q) =>
+                $q->where('flight_number', 'like', '%' . $data['search'] . '%')
+            )->when($data['gate'], fn($q) =>
+                $q->where('gate', $data['gate'])
+            )->when($data['status'], fn($q) =>
+                $q->where('status', $data['status'])
+            )->when($data['scheduledTime'] === 'today', fn($q) =>
+                $q->whereDate('scheduled_time', today())
+            );
+        };
+
+        $data['arrival_flights'] = Flight::where('flight_type', 'arrival')
+            ->where($baseFilter)
+            ->orderBy('scheduled_time')
+            ->paginate(10, ['*'], 'arrival_page')
+            ->appends($request->query());
+
+        $data['departure_flights'] = Flight::where('flight_type', 'departure')
+            ->where($baseFilter)
+            ->orderBy('scheduled_time')
+            ->paginate(10, ['*'], 'departure_page')
+            ->appends($request->query());
 
         return view('admin.flight.index', $data);
     }

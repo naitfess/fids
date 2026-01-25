@@ -8,9 +8,16 @@ use Illuminate\Support\Facades\Validator;
 
 class AirportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['airports'] = Airport::paginate(10);
+        $search = $request->search;
+        $data['airports'] = Airport::when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            })
+            ->paginate(10)
+            ->appends(['search' => $search]);
         return view('admin.airport.index', $data);
     }
 
@@ -19,9 +26,9 @@ class AirportController extends Controller
         $rules = [
             'code' => 'required|string|max:255|unique:airports',
             'name' => 'required|string|max:255',
-            'area_code' => 'required|string|max:255',
-            'latitude' => 'required|string|max:255',
-            'longitude' => 'required|string|max:255',
+            // 'area_code' => 'required|string|max:255',
+            // 'latitude' => 'required|string|max:255',
+            // 'longitude' => 'required|string|max:255',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -32,9 +39,9 @@ class AirportController extends Controller
         $data = [
             'code' => $request->code,
             'name' => $request->name,
-            'area_code' => $request->area_code,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
+            // 'area_code' => $request->area_code,
+            // 'latitude' => $request->latitude,
+            // 'longitude' => $request->longitude,
         ];
 
         Airport::create($data);
@@ -54,9 +61,9 @@ class AirportController extends Controller
         $rules = [
             'code' => 'required|string|max:255|unique:airports,code,' . $airport->id,
             'name' => 'required|string|max:255',
-            'area_code' => 'required|string|max:255',
-            'latitude' => 'required|string|max:255',
-            'longitude' => 'required|string|max:255',
+            // 'area_code' => 'required|string|max:255',
+            // 'latitude' => 'required|string|max:255',
+            // 'longitude' => 'required|string|max:255',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -67,9 +74,9 @@ class AirportController extends Controller
         $data = [
             'code' => $request->code,
             'name' => $request->name,
-            'area_code' => $request->area_code,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
+            // 'area_code' => $request->area_code,
+            // 'latitude' => $request->latitude,
+            // 'longitude' => $request->longitude,
         ];
 
         $airport->update($data);
