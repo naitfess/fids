@@ -3,7 +3,7 @@
 @endsection
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Users') }}
+        {{ __('Airlines') }}
     </h2>
 @endsection
 
@@ -26,7 +26,7 @@
                             <a class="btn btn-primary" href="{{ route('admin.user.create') }}" data-bs-toggle="modal"
                                 data-bs-target="#addUser">
                                 <i class="bi bi-plus"></i>
-                                Add User
+                                Add Airline
                             </a>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <tbody>
                             @if ($users->isEmpty())
                                 <tr>
-                                    <td colspan="5" class="text-center border-0">No users available.</td>
+                                    <td colspan="5" class="text-center border-0">No airlines available.</td>
                                 </tr>
                             @endif
                             @foreach ($users as $user)
@@ -89,7 +89,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h1 class="modal-title fs-6" id="addUserLabel">Add User</h1>
+                    <h1 class="modal-title fs-6" id="addUserLabel">Add Airline</h1>
                     {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                 </div>
                 <div class="modal-body pt-0">
@@ -134,7 +134,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h1 class="modal-title fs-6" id="editUserLabel">Edit User</h1>
+                    <h1 class="modal-title fs-6" id="editUserLabel">Edit Airline</h1>
                     {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                 </div>
                 <div class="modal-body pt-0">

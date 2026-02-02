@@ -36,7 +36,7 @@
                             <table class="table table-striped mb-0">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th scope="col" class="br-tl">Airlane</th>
+                                        <th scope="col" class="br-tl">Airline</th>
                                         <th scope="col">Flight Number</th>
                                         @if ($type == 'arrival')
                                             <th scope="col">Origin</th>
@@ -46,7 +46,7 @@
                                         <th scope="col">Scheduled</th>
                                         <th scope="col">Gate</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col" class="br-tr">Cuaca</th>
+                                        {{-- <th scope="col" class="br-tr">Cuaca</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,7 +78,7 @@
                                                 {{ $flight->status }}
                                                 {{ $flight->delayed_until ? ' Until ' . \Illuminate\Support\Carbon::parse($flight->delayed_until)->format('H:i') : '' }}
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 @if ($type == 'arrival' ? $flight->origin->weatherReport : $flight->destination->weatherReport)
                                                     <div class="d-flex align-items-center">
                                                         <div style="width: 50px" class="flex-shrink-0">
@@ -98,7 +98,7 @@
                                                 @else
                                                     <div>-</div>
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @endforeach
                                 </tbody>

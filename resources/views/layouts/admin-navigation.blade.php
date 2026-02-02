@@ -22,7 +22,7 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.*')" class="text-decoration-none">
-                        {{ __('User') }}
+                        {{ __('Airline') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -98,7 +98,7 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.*')">
-                {{ __('User') }}
+                {{ __('Airline') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.airport.index')" :active="request()->routeIs('admin.airport.*')">
                 {{ __('Airport') }}
