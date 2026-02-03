@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', [FrontpageController::class, 'index'])->name('frontpage');
 Route::get('/arrival', [FrontpageController::class, 'index'])->name('frontpage.arrival');
 Route::get('/departure', [FrontpageController::class, 'departure'])->name('frontpage.departure');
+Route::get('/api/flights-updates', [FrontpageController::class, 'checkUpdates']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

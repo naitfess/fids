@@ -12,11 +12,11 @@ class FrontpageController extends Controller
     public function index()
     {
         $flights = Flight::query()
-        ->with(['user', 'origin', 'origin.weatherReport'])
-        ->whereDate('scheduled_time', Carbon::today())
-        ->orderBy('scheduled_time', 'desc')
-        ->where('flight_type', 'arrival')
-        ->paginate(10);
+            ->with(['user', 'origin', 'origin.weatherReport'])
+            ->whereDate('scheduled_time', Carbon::today())
+            ->orderBy('scheduled_time', 'asc')
+            ->where('flight_type', 'arrival')
+            ->paginate(10);
 
         $data['flights'] = $flights;
         $data['type'] = 'arrival';
@@ -27,15 +27,27 @@ class FrontpageController extends Controller
     public function departure()
     {
         $flights = Flight::query()
-        ->with(['user', 'destination', 'destination.weatherReport'])
-        ->whereDate('scheduled_time', Carbon::today())
-        ->orderBy('scheduled_time', 'desc')
-        ->where('flight_type', 'departure')
-        ->paginate(10);
+            ->with(['user', 'destination', 'destination.weatherReport'])
+            ->whereDate('scheduled_time', Carbon::today())
+            ->orderBy('scheduled_time', 'asc')
+            ->where('flight_type', 'departure')
+            ->paginate(10);
 
         $data['flights'] = $flights;
         $data['type'] = 'departure';
 
         return view('frontpage.index', $data);
+    }
+
+    public function checkUpdates()
+    {
+        $flights = Flight::query()
+            ->whereDate('scheduled_time', Carbon::today())
+            ->latest('updated_at')
+            ->first();
+
+        return response()->json([
+            'last_update' => $flights?->updated_at
+        ]);
     }
 }

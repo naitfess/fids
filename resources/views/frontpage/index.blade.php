@@ -118,6 +118,7 @@
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+                        let lastUpdate = new Date().toISOString();
             function updateDateTime() {
                 const now = new Date();
 
@@ -140,8 +141,21 @@
                 }
             }
 
+            function checkForUpdates() {
+                fetch('/api/flights-updates')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (new Date(data.last_update) > new Date(lastUpdate)) {
+                            lastUpdate = data.last_update;
+                            location.reload();
+                        }
+                    })
+                    .catch(error => console.error('Error checking updates:', error));
+            }
+
             updateDateTime();
             setInterval(updateDateTime, 1000);
+            setInterval(checkForUpdates, 5000); // Check setiap 5 detik
         });
     </script>
 @endsection
