@@ -153,9 +153,9 @@
                 fetch(`/api/flights-updates?type=${flightType}`)
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Current checksum:', lastChecksum);
-                        console.log('New checksum:', data.checksum);
-                        console.log('Count:', data.count);
+                        // console.log('Current checksum:', lastChecksum);
+                        // console.log('New checksum:', data.checksum);
+                        // console.log('Count:', data.count);
 
                         if (lastChecksum === null) {
                             lastChecksum = data.checksum;
