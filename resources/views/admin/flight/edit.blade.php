@@ -10,7 +10,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form class="row g-3" action="{{ route('admin.flight.update', ['flightId' => $flight->id]) }}" method="POST">
+                    <form class="row g-3" action="{{ route('admin.flight.update', ['flightId' => $flight->id]) }}"
+                        method="POST">
                         @method('PUT')
                         @csrf
                         <div class="col-md-6">
@@ -18,7 +19,8 @@
                             <select id="airlane" class="form-select" name="airlane" disabled>
                                 <option selected disabled>Select Airlane</option>
                                 @foreach ($users as $user)
-                                    <option value="{{ $user->id }}" {{ $user->id == $flight->user_id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}"
+                                        {{ $user->id == $flight->user_id ? 'selected' : '' }}>{{ $user->name }}</option>
                                 @endforeach
                             </select>
                             @error('airlane')
@@ -75,7 +77,7 @@
                                 <div class="text-danger text-sm">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="gate-container">
                             <label for="gate" class="form-label">Gate</label>
                             <select id="gate" class="form-select" name="gate">
                                 <option selected disabled>Select Gate</option>
@@ -98,7 +100,7 @@
                             @enderror
                         </div>
                         <div class="col-12 mt-4 text-end">
-                            <a href="{{ route('flight.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('admin.flight.index') }}" class="btn btn-secondary">Cancel</a>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
@@ -113,15 +115,18 @@
             const flightTypeSelect = document.getElementById('flight_type');
             const originContainer = document.getElementById('origin-container');
             const destinationContainer = document.getElementById('destination-container');
+            const gateContainer = document.getElementById('gate-container');
 
             function toggleFields() {
                 const selectedType = flightTypeSelect.value.toLowerCase();
                 if (selectedType === 'arrival') {
                     originContainer.style.display = 'block';
                     destinationContainer.style.display = 'none';
+                    gateContainer.style.display = 'none'
                 } else if (selectedType === 'departure') {
                     originContainer.style.display = 'none';
                     destinationContainer.style.display = 'block';
+                    gateContainer.style.display = 'block'
                 } else {
                     originContainer.style.display = 'none';
                     destinationContainer.style.display = 'none';

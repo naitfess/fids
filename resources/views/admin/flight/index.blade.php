@@ -33,7 +33,8 @@
                             <div>
                                 <select class="form-select" name="scheduled_time">
                                     <option value="today"
-                                        {{ request('scheduled_time', 'today') === 'today' ? 'selected' : '' }}>Today</option>
+                                        {{ request('scheduled_time', 'today') === 'today' ? 'selected' : '' }}>Today
+                                    </option>
                                     <option value="alltime" {{ request('scheduled_time') === 'alltime' ? 'selected' : '' }}>
                                         All Time</option>
                                 </select>
@@ -52,14 +53,16 @@
                                             </option>
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <option value="{{ $i }}"
-                                                    {{ request('gate') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                                    {{ request('gate') == $i ? 'selected' : '' }}>{{ $i }}
+                                                </option>
                                             @endfor
                                         </select>
                                     </div>
                                     <div class="mb-1">
                                         <label for="status" class="form-label mb-0 text-sm">Status</label>
                                         <select class="form-select form-select-sm" name="status">
-                                            <option value="" {{ request('status') === '' ? 'selected' : '' }}>All Status
+                                            <option value="" {{ request('status') === '' ? 'selected' : '' }}>All
+                                                Status
                                             </option>
                                             @foreach (['Check-in Open', 'Check-in Closed', 'Boarding', 'Final Call', 'Departed', 'Delayed', 'Cancelled'] as $st)
                                                 <option value="{{ $st }}"
@@ -98,7 +101,7 @@
                                 <th scope="col">Flight Number</th>
                                 <th scope="col">Origin</th>
                                 <th scope="col">Scheduled</th>
-                                <th scope="col">Gate</th>
+                                {{-- <th scope="col">Gate</th> --}}
                                 <th scope="col">Status</th>
                                 <th scope="col"></th>
                             </tr>
@@ -116,7 +119,7 @@
                                     <td>{{ @$arrival_flight->origin->code }}</td>
                                     <td>{{ $arrival_flight->scheduled_time ? \Illuminate\Support\Carbon::parse($arrival_flight->scheduled_time)->format('d-m-Y H:i') : '' }}
                                     </td>
-                                    <td>{{ $arrival_flight->gate }}</td>
+                                    {{-- <td>{{ $arrival_flight->gate }}</td> --}}
                                     <td>{{ $arrival_flight->status }}
                                         {{ $arrival_flight->delayed_until ? ' Until ' . \Illuminate\Support\Carbon::parse($arrival_flight->delayed_until)->format('H:i') : '' }}
                                     </td>
@@ -217,6 +220,7 @@
                         <div class="form-floating">
                             <select class="form-select" id="floatingSelect" aria-label="Status" name="status">
                                 <option selected disabled>Select Status</option>
+                                <option value="Scheduled">Scheduled</option>
                                 <option value="Check-in Open">Check-in Open</option>
                                 <option value="Check-in Closed">Check-in Closed</option>
                                 <option value="Boarding">Boarding</option>
@@ -310,6 +314,32 @@
                     const flightId = this.dataset.flightId;
                     const currentStatus = this.dataset.status;
                     const delayedUntil = this.dataset.delayedUntil;
+
+                    // Get current active tab
+                    const isArrivalTab = arrivalTab.classList.contains('active');
+
+                    // Update select options based on tab
+                    if (isArrivalTab) {
+                        selectedStatus.innerHTML = `
+                <option selected disabled>Select Status</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Delayed">Delayed</option>
+                <option value="Cancelled">Cancelled</option>
+            `;
+                    } else {
+                        selectedStatus.innerHTML = `
+                <option selected disabled>Select Status</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Check-in Open">Check-in Open</option>
+                <option value="Check-in Closed">Check-in Closed</option>
+                <option value="Boarding">Boarding</option>
+                <option value="Final Call">Final Call</option>
+                <option value="Departed">Departed</option>
+                <option value="Delayed">Delayed</option>
+                <option value="Cancelled">Cancelled</option>
+            `;
+                    }
+
                     if (delayedUntil) {
                         delayedInput.value = delayedUntil.replace(' ', 'T');
                     } else {

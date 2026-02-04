@@ -39,15 +39,31 @@ class FrontpageController extends Controller
         return view('frontpage.index', $data);
     }
 
-    public function checkUpdates()
+    public function checkUpdates(Request $request)
     {
-        $flights = Flight::query()
+        $type = $request->query('type', 'arrival');
+
+        $totalCount = Flight::query()
             ->whereDate('scheduled_time', Carbon::today())
-            ->latest('updated_at')
-            ->first();
+            ->where('flight_type', $type)
+            ->count();
+
+        $lastUpdated = Flight::query()
+            ->whereDate('scheduled_time', Carbon::today())
+            ->where('flight_type', $type)
+            ->max('updated_at');
+
+        // Handle case when no flights exist
+        if ($lastUpdated === null) {
+            $lastUpdated = '0';
+        }
+
+        // Include total count in checksum to detect deletions
+        $checksum = hash('sha256', $totalCount . '|' . $lastUpdated);
 
         return response()->json([
-            'last_update' => $flights?->updated_at
+            'checksum' => $checksum,
+            'count' => $totalCount
         ]);
     }
 }

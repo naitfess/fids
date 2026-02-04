@@ -73,7 +73,7 @@
                                 <div class="text-danger text-sm">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="gate-container">
                             <label for="gate" class="form-label">Gate</label>
                             <select id="gate" class="form-select" name="gate">
                                 <option selected disabled>Select Gate</option>
@@ -95,7 +95,7 @@
                             @enderror
                         </div>
                         <div class="col-12 mt-4 text-end">
-                            <a href="{{ route('flight.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('admin.flight.index') }}" class="btn btn-secondary">Cancel</a>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
@@ -111,15 +111,18 @@
             const flightTypeSelect = document.getElementById('flight_type');
             const originContainer = document.getElementById('origin-container');
             const destinationContainer = document.getElementById('destination-container');
+            const gateContainer = document.getElementById('gate-container');
 
             function toggleFields() {
                 const selectedType = flightTypeSelect.value.toLowerCase();
                 if (selectedType === 'arrival') {
                     originContainer.style.display = 'block';
                     destinationContainer.style.display = 'none';
+                    gateContainer.style.display = 'none';
                 } else if (selectedType === 'departure') {
                     originContainer.style.display = 'none';
                     destinationContainer.style.display = 'block';
+                    gateContainer.style.display = 'block';
                 } else {
                     originContainer.style.display = 'none';
                     destinationContainer.style.display = 'none';

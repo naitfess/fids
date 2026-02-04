@@ -17,7 +17,8 @@
         <div class="py-2 py-md-4">
             <div class="mx-0 mx-md-3">
                 <div class="bg-white overflow-hidden shadow-sm rounded-3">
-                    <div class="pt-4 pt-md-6 px-3 px-md-6 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                    <div
+                        class="pt-4 pt-md-6 px-3 px-md-6 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                         <div class="fs-4 fs-md-3 fw-bold mb-2 mb-md-0">
                             @if ($type == 'arrival')
                                 ARRIVAL
@@ -44,7 +45,9 @@
                                             <th scope="col">Destination</th>
                                         @endif
                                         <th scope="col">Scheduled</th>
-                                        <th scope="col">Gate</th>
+                                        @if ($type == 'departure')
+                                            <th scope="col">Gate</th>
+                                        @endif
                                         <th scope="col">Status</th>
                                         {{-- <th scope="col" class="br-tr">Cuaca</th> --}}
                                     </tr>
@@ -61,7 +64,8 @@
                                         <tr class="align-middle">
                                             <th scope="row">
                                                 <div class="logo-sm d-flex align-items-center">
-                                                    <img class="img-fluid" src="{{ asset('uploads/' . $flight->user->logo) }}" alt="">
+                                                    <img class="img-fluid"
+                                                        src="{{ asset('uploads/' . $flight->user->logo) }}" alt="">
                                                 </div>
                                             </th>
                                             <td class="fw-semibold">{{ $flight->flight_number }}</td>
@@ -73,7 +77,9 @@
                                             <td>
                                                 {{ $flight->scheduled_time ? \Illuminate\Support\Carbon::parse($flight->scheduled_time)->format('H:i') : '' }}
                                             </td>
-                                            <td>{{ $flight->gate }}</td>
+                                            @if ($type == 'departure')
+                                                <td>{{ $flight->gate }}</td>
+                                            @endif
                                             <td>
                                                 {{ $flight->status }}
                                                 {{ $flight->delayed_until ? ' Until ' . \Illuminate\Support\Carbon::parse($flight->delayed_until)->format('H:i') : '' }}
@@ -118,7 +124,8 @@
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-                        let lastUpdate = new Date().toISOString();
+            let lastChecksum = null;
+
             function updateDateTime() {
                 const now = new Date();
 
@@ -142,11 +149,19 @@
             }
 
             function checkForUpdates() {
-                fetch('/api/flights-updates')
+                const flightType = '{{ $type }}';
+                fetch(`/api/flights-updates?type=${flightType}`)
                     .then(response => response.json())
                     .then(data => {
-                        if (new Date(data.last_update) > new Date(lastUpdate)) {
-                            lastUpdate = data.last_update;
+                        console.log('Current checksum:', lastChecksum);
+                        console.log('New checksum:', data.checksum);
+                        console.log('Count:', data.count);
+
+                        if (lastChecksum === null) {
+                            lastChecksum = data.checksum;
+                        } else if (data.checksum !== lastChecksum) {
+                            console.log('Checksum changed, reloading...');
+                            lastChecksum = data.checksum;
                             location.reload();
                         }
                     })
@@ -155,7 +170,7 @@
 
             updateDateTime();
             setInterval(updateDateTime, 1000);
-            setInterval(checkForUpdates, 5000); // Check setiap 5 detik
+            setInterval(checkForUpdates, 5000);
         });
     </script>
 @endsection

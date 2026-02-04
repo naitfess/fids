@@ -220,11 +220,11 @@ class FlightController extends Controller
     {
         $rules = [
             'airlane' => 'required|exists:users,id',
-            'flight_number' => 'required|string|max:10|unique:flights,flight_number',
+            'flight_number' => 'required|string|max:10',
             'flight_type' => 'required|in:arrival,departure',
             'origin' => 'required_if:flight_type,arrival|exists:airports,id',
             'destination' => 'required_if:flight_type,departure|exists:airports,id',
-            'gate' => 'required|integer|min:1|max:5',
+            'gate' => 'required_if:flight_type,departure|integer|min:1|max:5',
             'scheduled_time' => 'required|date_format:Y-m-d\TH:i',
         ];
 
@@ -239,8 +239,9 @@ class FlightController extends Controller
             'flight_type' => $request->input('flight_type'),
             'origin_id' => $request->input('flight_type') === 'arrival' ? $request->input('origin') : null,
             'destination_id' => $request->input('flight_type') === 'departure' ? $request->input('destination') : null,
-            'gate' => $request->input('gate'),
+            'gate' => $request->input('gate') ?? null,
             'scheduled_time' => $request->input('scheduled_time'),
+            'status' => $request->input('flight_type') === 'arrival' ? 'Scheduled' : 'Check-in Open'
         ];
 
         Flight::create($data);
@@ -265,11 +266,11 @@ class FlightController extends Controller
         $flight = Flight::findOrFail($flightId);
 
         $rules = [
-            'flight_number' => 'required|string|max:10|unique:flights,flight_number,' . $flight->id,
+            'flight_number' => 'required|string|max:10',
             'flight_type' => 'in:arrival,departure',
             'origin' => 'required_if:flight_type,arrival|exists:airports,id',
             'destination' => 'required_if:flight_type,departure|exists:airports,id',
-            'gate' => 'required|integer|min:1|max:5',
+            'gate' => 'required_if:flight_type,departure|integer|min:1|max:5',
             'scheduled_time' => 'required|date_format:Y-m-d\TH:i',
         ];
 
@@ -283,7 +284,7 @@ class FlightController extends Controller
             'flight_type' => $flight->flight_type,
             'origin_id' => $flight->flight_type === 'arrival' ? $request->input('origin') : null,
             'destination_id' => $flight->flight_type === 'departure' ? $request->input('destination') : null,
-            'gate' => $request->input('gate'),
+            'gate' => $request->input('gate') ?? null,
             'scheduled_time' => $request->input('scheduled_time'),
         ];
 
@@ -300,6 +301,7 @@ class FlightController extends Controller
         $flight = Flight::findOrFail($flightId);
 
         $statuses = [
+            'Scheduled',
             'Check-in Open',
             'Check-in Closed',
             'Boarding',
