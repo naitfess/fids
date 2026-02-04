@@ -329,7 +329,6 @@
                     } else {
                         selectedStatus.innerHTML = `
                 <option selected disabled>Select Status</option>
-                <option value="Scheduled">Scheduled</option>
                 <option value="Check-in Open">Check-in Open</option>
                 <option value="Check-in Closed">Check-in Closed</option>
                 <option value="Boarding">Boarding</option>
