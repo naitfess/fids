@@ -35,6 +35,11 @@
                         {{ __('Flight') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.running-text.index')" :active="request()->routeIs('admin.running-text.*')" class="text-decoration-none">
+                        {{ __('Running Text') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -102,6 +107,12 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.airport.index')" :active="request()->routeIs('admin.airport.*')">
                 {{ __('Airport') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.flight.index')" :active="request()->routeIs('admin.flight.*')">
+                {{ __('Flight') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.running-text.index')" :active="request()->routeIs('admin.running-text.*')">
+                {{ __('Running Text') }}
             </x-responsive-nav-link>
         </div>
 

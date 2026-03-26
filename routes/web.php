@@ -9,6 +9,8 @@ Route::get('/', [FrontpageController::class, 'index'])->name('frontpage');
 Route::get('/arrival', [FrontpageController::class, 'index'])->name('frontpage.arrival');
 Route::get('/departure', [FrontpageController::class, 'departure'])->name('frontpage.departure');
 Route::get('/api/flights-updates', [FrontpageController::class, 'checkUpdates']);
+Route::get('/api/running-texts', [FrontpageController::class, 'runningTexts']);
+Route::get('/api/running-text-updates', [FrontpageController::class, 'checkRunningTextUpdates']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

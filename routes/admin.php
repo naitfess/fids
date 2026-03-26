@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AirportController;
 use App\Http\Controllers\FlightController;
+use App\Http\Controllers\RunningTextController;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/', function () {
@@ -17,6 +18,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::get('/{userId}/edit', 'edit')->name('edit');
         Route::put('/{userId}', 'update')->name('update');
         Route::delete('/{userId}', 'destroy')->name('destroy');
+    });
+
+    Route::prefix('running-text')->name('admin.running-text.')->controller(RunningTextController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::put('/{runningTextId}', 'update')->name('update');
+        Route::delete('/{runningTextId}', 'destroy')->name('destroy');
     });
 
     Route::prefix('airport')->name('admin.airport.')->controller(AirportController::class)->group(function () {

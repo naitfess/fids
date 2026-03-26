@@ -4,39 +4,44 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Flight;
+use App\Models\RunningText;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class FrontpageController extends Controller
 {
     public function index()
     {
-        $flights = Flight::query()
+        $arrivals = Flight::query()
             ->with(['user', 'origin', 'origin.weatherReport'])
             ->whereDate('scheduled_time', Carbon::today())
             ->orderBy('scheduled_time', 'asc')
             ->where('flight_type', 'arrival')
-            ->paginate(10);
+            ->limit(4)
+            ->get();
 
-        $data['flights'] = $flights;
-        $data['type'] = 'arrival';
-
-        return view('frontpage.index', $data);
-    }
-
-    public function departure()
-    {
-        $flights = Flight::query()
+        $departures = Flight::query()
             ->with(['user', 'destination', 'destination.weatherReport'])
             ->whereDate('scheduled_time', Carbon::today())
             ->orderBy('scheduled_time', 'asc')
             ->where('flight_type', 'departure')
-            ->paginate(10);
+            ->limit(4)
+            ->get();
 
-        $data['flights'] = $flights;
-        $data['type'] = 'departure';
+        $runningTexts = RunningText::query()
+            ->latest()
+            ->pluck('text')
+            ->values();
 
-        return view('frontpage.index', $data);
+        return view('frontpage.index', [
+            'arrivals' => $arrivals,
+            'departures' => $departures,
+            'runningTexts' => $runningTexts,
+        ]);
+    }
+
+    public function departure()
+    {
+        return $this->index();
     }
 
     public function checkUpdates(Request $request)
@@ -64,6 +69,40 @@ class FrontpageController extends Controller
         return response()->json([
             'checksum' => $checksum,
             'count' => $totalCount
+        ]);
+    }
+
+    public function checkRunningTextUpdates()
+    {
+        $totalCount = RunningText::query()->count();
+        $lastUpdated = RunningText::query()->max('updated_at');
+
+        if ($lastUpdated === null) {
+            $lastUpdated = '0';
+        }
+
+        $checksum = hash('sha256', $totalCount . '|' . $lastUpdated);
+
+        return response()->json([
+            'checksum' => $checksum,
+            'count' => $totalCount,
+        ]);
+    }
+
+    public function runningTexts()
+    {
+        $messages = RunningText::query()
+            ->pluck('text')
+            ->filter()
+            ->values();
+
+        $totalCount = $messages->count();
+        $lastUpdated = RunningText::query()->max('updated_at') ?? '0';
+        $checksum = hash('sha256', $totalCount . '|' . $lastUpdated);
+
+        return response()->json([
+            'checksum' => $checksum,
+            'messages' => $messages,
         ]);
     }
 }

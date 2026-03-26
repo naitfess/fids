@@ -84,3 +84,219 @@ h1, h2, h3, h4, h5, h6 {
         height: 50px !important;
     }
 }
+
+.fids-board {
+    width: 100%;
+    max-width: 100%;
+    --fids-navy: #123a63;
+    --fids-blue: #2f76b8;
+    --fids-sky: #e9f4ff;
+    --fids-accent: #ffcc47;
+    --fids-ink: #0e2238;
+    --fids-soft: #dbe8f5;
+}
+
+.fids-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    background: linear-gradient(135deg, var(--fids-sky) 0%, #d6ebff 45%, #c6e4ff 100%);
+    border-radius: 16px;
+    border: 1px solid #c5dcf3;
+    box-shadow: 0 10px 30px rgba(17, 44, 74, 0.12);
+    padding: 0.95rem 1.25rem;
+}
+
+.fids-header-title {
+    margin: 0;
+    font-size: clamp(1.25rem, 3vw, 2.1rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--fids-ink);
+    text-align: center;
+}
+
+.fids-header-logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+}
+
+.fids-section {
+    background-color: #fff;
+    border: 1px solid var(--fids-soft);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(13, 46, 84, 0.08);
+}
+
+.fids-section-head {
+    background: linear-gradient(90deg, var(--fids-navy) 0%, var(--fids-blue) 100%);
+    color: #f7fbff;
+    padding: 0.55rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.fids-section-head h2 {
+    margin: 0;
+    font-size: clamp(1rem, 2.4vw, 1.55rem);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.fids-section-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background-color: var(--fids-accent);
+    color: #3d3004;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.rotate-45{
+    transform: rotate(45deg);
+}
+.rotate--45{
+    transform: rotate(-45deg);
+}
+
+.fids-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.fids-table th,
+.fids-table td {
+    padding: 0.42rem 0.75rem;
+    font-size: clamp(1.5rem, 1.35vw, 2rem);
+    border-bottom: 1px solid #edf3fa;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.fids-table th {
+    font-weight: 600;
+    color: #173654;
+    background-color: #f4f9ff;
+}
+
+.fids-table tbody tr:nth-child(2n) {
+    background-color: #fbfdff;
+}
+
+.fids-table tbody tr:hover {
+    background-color: #f0f7ff;
+}
+
+.fids-airline-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.fids-airline-logo {
+    /* width: 28px; */
+    height: 28px;
+    /* border-radius: 6px; */
+    object-fit: cover;
+    flex-shrink: 0;
+    /* border: 1px solid #d8e6f4; */
+}
+
+.fids-footer {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 0.75rem;
+}
+
+.fids-running-text {
+    background: linear-gradient(90deg, #ecf6ff 0%, #d8ebff 100%);
+    color: #193954;
+    font-size: clamp(0.95rem, 2.2vw, 1.5rem);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    min-height: 80px;
+    border: 1px solid #d2e3f4;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.fids-running-track {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+}
+
+.fids-running-content {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate3d(100%, -50%, 0);
+    white-space: nowrap;
+    will-change: transform;
+    padding: 0 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.fids-clock-box {
+    background: linear-gradient(180deg, var(--fids-navy) 0%, var(--fids-blue) 100%);
+    color: #f4f9ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 70px;
+    padding: 0.45rem;
+    border-radius: 12px;
+}
+
+.fids-time {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.fids-date {
+    font-size: clamp(0.1rem, 1.5vw, 2rem);
+    margin-top: 0.25rem;
+    line-height: 1.1;
+    opacity: 0.95;
+}
+
+@media (max-width: 768px) {
+    .fids-header {
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .fids-header-logo {
+        height: 40px;
+    }
+
+    .fids-footer {
+        grid-template-columns: 1fr;
+    }
+
+    .fids-clock-box {
+        align-items: center;
+    }
+
+    .fids-table th,
+    .fids-table td {
+        padding: 0.38rem 0.55rem;
+    }
+}

@@ -1,176 +1,310 @@
 @extends('layouts.frontpage')
 
 @section('content')
-    <div class="container-fluid py-4">
-        <div class="pt-3 pb-4 text-center">
-            <div class="d-flex flex-column flex-md-row justify-content-center align-items-center mb-2 gap-3">
-                <img class="logo-front img-fluid me-md-3 mb-2 mb-md-0" src="{{ asset('logo/logo_kemenhub.PNG') }}"
-                    alt="Logo Kemenhub">
-                <div>
-                    <h1 class="mb-1 fw-bold text-uppercase fs-1 fs-md-2">Bandar Udara Muara Bungo</h1>
-                </div>
-                <img class="logo-front img-fluid ms-md-3 mt-2 mt-md-0" src="{{ asset('logo/logo_muarabungo.PNG') }}"
-                    alt="Logo Muara Bungo">
+<div class="fids-board container-fluid px-3 py-3 py-md-4">
+    <div class="fids-header">
+        <img class="fids-header-logo" src="{{ asset('logo/logo_kemenhub.PNG') }}" alt="Logo Kemenhub">
+        <h1 class="fids-header-title">Bandar Udara Muara Bungo</h1>
+        <img class="fids-header-logo" src="{{ asset('logo/logo_muarabungo.PNG') }}" alt="Logo Muara Bungo">
+    </div>
+    
+    <section class="fids-section mt-4">
+        <div class="fids-section-head">
+            <div class="fids-section-icon rotate-45">✈</div>
+            <h2>Arrivals</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="fids-table">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Airline</th>
+                        <th>Flight Number</th>
+                        <th>Origin</th>
+                        <th>Schedule</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for ($i = 0; $i < 3; $i++)
+                    @php
+                    $flight = $arrivals->get($i);
+                    @endphp
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td>
+                            @if ($flight)
+                            <div class="fids-airline-wrap">
+                                @if (!empty($flight->user?->logo))
+                                <img class="fids-airline-logo"
+                                src="{{ asset('uploads/' . $flight->user->logo) }}"
+                                alt="{{ $flight->user?->name ?? 'Airline' }}">
+                                @else
+                                <span>{{ $flight->user?->name ?? '-' }}</span>
+                                @endif
+                            </div>
+                            @else
+                            -
+                            @endif
+                        </td>
+                        <td>{{ $flight?->flight_number ?? '-' }}</td>
+                        <td>{{ $flight?->origin?->name ?? '-' }}</td>
+                        <td>
+                            {{ $flight?->scheduled_time ? \Illuminate\Support\Carbon::parse($flight->scheduled_time)->format('H:i') : '-' }}
+                        </td>
+                        <td>
+                            @if ($flight)
+                            {{ $flight->status }}
+                            {{ $flight->delayed_until ? ' Until ' . \Illuminate\Support\Carbon::parse($flight->delayed_until)->format('H:i') : '' }}
+                            @else
+                            -
+                            @endif
+                        </td>
+                    </tr>
+                    @endfor
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <section class="fids-section mt-4">
+        <div class="fids-section-head">
+            <div class="fids-section-icon rotate--45">✈</div>
+            <h2>Departures</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="fids-table">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Airline</th>
+                        <th>Flight Number</th>
+                        <th>Destination</th>
+                        <th>Schedule</th>
+                        <th>Gate</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for ($i = 0; $i < 3; $i++)
+                    @php
+                    $flight = $departures->get($i);
+                    @endphp
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td>
+                            @if ($flight)
+                            <div class="fids-airline-wrap">
+                                @if (!empty($flight->user?->logo))
+                                <img class="fids-airline-logo"
+                                src="{{ asset('uploads/' . $flight->user->logo) }}"
+                                alt="{{ $flight->user?->name ?? 'Airline' }}">
+                                @else
+                                <span>{{ $flight->user?->name ?? '-' }}</span>
+                                @endif
+                            </div>
+                            @else
+                            -
+                            @endif
+                        </td>
+                        <td>{{ $flight?->flight_number ?? '-' }}</td>
+                        <td>{{ $flight?->destination?->name ?? '-' }}</td>
+                        <td>
+                            {{ $flight?->scheduled_time ? \Illuminate\Support\Carbon::parse($flight->scheduled_time)->format('H:i') : '-' }}
+                        </td>
+                        <td>
+                            {{ $flight?->gate }}
+                        </td>
+                        <td>
+                            @if ($flight)
+                            {{ $flight->status }}
+                            {{ $flight->delayed_until ? ' Until ' . \Illuminate\Support\Carbon::parse($flight->delayed_until)->format('H:i') : '' }}
+                            @else
+                            -
+                            @endif
+                        </td>
+                    </tr>
+                    @endfor
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <div class="fids-footer mt-4">
+        <div class="fids-running-text">
+            <div id="running-text-track" class="fids-running-track" aria-label="Running text information board">
+                <span id="running-text-content" class="fids-running-content"></span>
             </div>
         </div>
-
-        <div class="py-2 py-md-4">
-            <div class="mx-0 mx-md-3">
-                <div class="bg-white overflow-hidden shadow-sm rounded-3">
-                    <div
-                        class="pt-4 pt-md-6 px-3 px-md-6 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                        <div class="fs-4 fs-md-3 fw-bold mb-2 mb-md-0">
-                            @if ($type == 'arrival')
-                                ARRIVAL
-                            @else
-                                DEPARTURE
-                            @endif
-                        </div>
-                        <div class="d-flex flex-column text-md-end">
-                            <div id="current-date" class="small small-md"></div>
-                            <div id="current-time" class="fs-4 fs-md-3 fw-semibold"></div>
-                        </div>
-                    </div>
-
-                    <div class="p-3 p-md-6 text-gray-900" id="arrival-flights-table">
-                        <div class="table-responsive">
-                            <table class="table table-striped mb-0">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th scope="col" class="br-tl">Airline</th>
-                                        <th scope="col">Flight Number</th>
-                                        @if ($type == 'arrival')
-                                            <th scope="col">Origin</th>
-                                        @else
-                                            <th scope="col">Destination</th>
-                                        @endif
-                                        <th scope="col">Scheduled</th>
-                                        @if ($type == 'departure')
-                                            <th scope="col">Gate</th>
-                                        @endif
-                                        <th scope="col">Status</th>
-                                        {{-- <th scope="col" class="br-tr">Cuaca</th> --}}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if ($flights->isEmpty())
-                                        <tr>
-                                            <td colspan="7" class="text-center border-0 py-3">
-                                                No {{ $type == 'arrival' ? 'arrival' : 'departure' }} flights available.
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    @foreach ($flights as $flight)
-                                        <tr class="align-middle">
-                                            <th scope="row">
-                                                <div class="logo-sm d-flex align-items-center">
-                                                    <img class="img-fluid"
-                                                        src="{{ asset('uploads/' . $flight->user->logo) }}" alt="">
-                                                </div>
-                                            </th>
-                                            <td class="fw-semibold">{{ $flight->flight_number }}</td>
-                                            @if ($type == 'arrival')
-                                                <td>{{ @$flight->origin->name }}</td>
-                                            @else
-                                                <td>{{ @$flight->destination->name }}</td>
-                                            @endif
-                                            <td>
-                                                {{ $flight->scheduled_time ? \Illuminate\Support\Carbon::parse($flight->scheduled_time)->format('H:i') : '' }}
-                                            </td>
-                                            @if ($type == 'departure')
-                                                <td>{{ $flight->gate }}</td>
-                                            @endif
-                                            <td>
-                                                {{ $flight->status }}
-                                                {{ $flight->delayed_until ? ' Until ' . \Illuminate\Support\Carbon::parse($flight->delayed_until)->format('H:i') : '' }}
-                                            </td>
-                                            {{-- <td>
-                                                @if ($type == 'arrival' ? $flight->origin->weatherReport : $flight->destination->weatherReport)
-                                                    <div class="d-flex align-items-center">
-                                                        <div style="width: 50px" class="flex-shrink-0">
-                                                            <img class="img-fluid"
-                                                                src="https://openweathermap.org/img/wn/{{ $type == 'arrival' ? $flight->origin->weatherReport->icon : $flight->destination->weatherReport->icon }}@2x.png"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="d-flex flex-column ms-2">
-                                                            <div>
-                                                                {{ $type == 'arrival' ? $flight->origin->weatherReport->temperature : $flight->destination->weatherReport->temperature }}°C
-                                                            </div>
-                                                            <div class="small">
-                                                                {{ $type == 'arrival' ? $flight->origin->weatherReport->weather : $flight->destination->weatherReport->weather }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @else
-                                                    <div>-</div>
-                                                @endif
-                                            </td> --}}
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="mt-3 d-flex justify-content-center justify-content-md-end">
-                            {{ $flights->links('pagination::bootstrap-5') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="fids-clock-box">
+            <div id="current-time" class="fids-time"></div>
+            <div id="current-date" class="fids-date"></div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let lastChecksum = null;
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let lastArrivalChecksum = null;
+        let lastDepartureChecksum = null;
+        let lastRunningTextChecksum = null;
+        let refreshRunningText = null;
+        
+        const fallbackMessages = [
+            'Selamat datang di Bandar Udara Muara Bungo.',
+            'Mohon perhatikan informasi penerbangan pada layar ini.',
+            'Datang lebih awal dan siapkan dokumen perjalanan Anda.'
+        ];
+        
+        function initRunningText() {
+            const trackEl = document.getElementById('running-text-track');
+            const contentEl = document.getElementById('running-text-content');
+            
+            if (!trackEl || !contentEl) return;
+            
+            let messages = @json(
+                ($runningTexts ?? collect())->filter()->values()->all()
+            );
 
-            function updateDateTime() {
-                const now = new Date();
+            if (messages.length === 0) {
+                messages = [...fallbackMessages];
+            }
+            
+            let activeIndex = 0;
+            let contentWidth = 0;
+            let currentX = 0;
+            let lastTime = null;
+            const speed = 95; // pixel per second
 
-                const dateFormatter = new Intl.DateTimeFormat('id-ID', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                });
+            function applyMessages(newMessages) {
+                const nextMessages = Array.isArray(newMessages) && newMessages.length > 0
+                    ? newMessages
+                    : fallbackMessages;
 
-                const dateEl = document.getElementById('current-date');
-                const timeEl = document.getElementById('current-time');
-
-                if (dateEl) dateEl.textContent = dateFormatter.format(now);
-
-                if (timeEl) {
-                    const h = String(now.getHours()).padStart(2, '0');
-                    const m = String(now.getMinutes()).padStart(2, '0');
-                    const s = String(now.getSeconds()).padStart(2, '0');
-                    timeEl.textContent = `${h}:${m}:${s}`;
+                messages = [...nextMessages];
+                activeIndex = 0;
+                lastTime = null;
+                setMessage(activeIndex);
+            }
+            
+            function setMessage(index) {
+                contentEl.textContent = messages[index];
+                currentX = trackEl.clientWidth;
+                contentEl.style.transform = `translate3d(${currentX}px, -50%, 0)`;
+                contentWidth = contentEl.offsetWidth;
+            }
+            
+            function animate(timestamp) {
+                if (lastTime === null) {
+                    lastTime = timestamp;
                 }
+                
+                const delta = (timestamp - lastTime) / 1000;
+                lastTime = timestamp;
+                currentX -= speed * delta;
+                
+                if (currentX < -contentWidth) {
+                    activeIndex = (activeIndex + 1) % messages.length;
+                    setMessage(activeIndex);
+                }
+                
+                contentEl.style.transform = `translate3d(${currentX}px, -50%, 0)`;
+                window.requestAnimationFrame(animate);
             }
+            
+            setMessage(activeIndex);
+            window.requestAnimationFrame(animate);
+            
+            window.addEventListener('resize', () => {
+                setMessage(activeIndex);
+            });
 
-            function checkForUpdates() {
-                const flightType = '{{ $type }}';
-                fetch(`/api/flights-updates?type=${flightType}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // console.log('Current checksum:', lastChecksum);
-                        // console.log('New checksum:', data.checksum);
-                        // console.log('Count:', data.count);
+            refreshRunningText = applyMessages;
+        }
 
-                        if (lastChecksum === null) {
-                            lastChecksum = data.checksum;
-                        } else if (data.checksum !== lastChecksum) {
-                            console.log('Checksum changed, reloading...');
-                            lastChecksum = data.checksum;
-                            location.reload();
-                        }
-                    })
-                    .catch(error => console.error('Error checking updates:', error));
+        function fetchRunningTexts() {
+            return fetch('/api/running-texts')
+                .then(response => response.json())
+                .then(data => {
+                    if (refreshRunningText) {
+                        refreshRunningText(data.messages || []);
+                    }
+
+                    if (data.checksum) {
+                        lastRunningTextChecksum = data.checksum;
+                    }
+                })
+                .catch(error => console.error('Error loading running texts:', error));
+        }
+        
+        function updateDateTime() {
+            const now = new Date();
+            
+            const dateFormatter = new Intl.DateTimeFormat('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            const dateEl = document.getElementById('current-date');
+            const timeEl = document.getElementById('current-time');
+            
+            if (dateEl) dateEl.textContent = dateFormatter.format(now);
+            
+            if (timeEl) {
+                timeEl.textContent = now.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true,
+                });
             }
+        }
+        
+        function checkForUpdates() {
+            Promise.all([
+            fetch('/api/flights-updates?type=arrival').then(response => response.json()),
+            fetch('/api/flights-updates?type=departure').then(response => response.json()),
+            ])
+            .then(([arrivalData, departureData]) => {
+                if (lastArrivalChecksum === null || lastDepartureChecksum === null) {
+                    lastArrivalChecksum = arrivalData.checksum;
+                    lastDepartureChecksum = departureData.checksum;
+                    return;
+                }
+                
+                if (arrivalData.checksum !== lastArrivalChecksum || departureData.checksum !== lastDepartureChecksum) {
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error checking updates:', error));
+        }
 
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
-            setInterval(checkForUpdates, 5000);
-        });
-    </script>
+        function checkRunningTextUpdates() {
+            fetch('/api/running-text-updates')
+                .then(response => response.json())
+                .then(data => {
+                    if (lastRunningTextChecksum === null) {
+                        lastRunningTextChecksum = data.checksum;
+                        return;
+                    }
+
+                    if (data.checksum !== lastRunningTextChecksum) {
+                        fetchRunningTexts();
+                    }
+                })
+                .catch(error => console.error('Error checking running text updates:', error));
+        }
+        
+        initRunningText();
+        fetchRunningTexts();
+        updateDateTime();
+        checkForUpdates();
+        checkRunningTextUpdates();
+        setInterval(updateDateTime, 1000);
+        setInterval(checkForUpdates, 5000);
+        setInterval(checkRunningTextUpdates, 5000);
+    });
+</script>
 @endsection
