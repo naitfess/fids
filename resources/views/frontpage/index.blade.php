@@ -153,9 +153,7 @@
         let refreshRunningText = null;
         
         const fallbackMessages = [
-            'Selamat datang di Bandar Udara Muara Bungo.',
-            'Mohon perhatikan informasi penerbangan pada layar ini.',
-            'Datang lebih awal dan siapkan dokumen perjalanan Anda.'
+            'Selamat datang di Bandar Udara Muara Bungo.'
         ];
         
         function initRunningText() {
