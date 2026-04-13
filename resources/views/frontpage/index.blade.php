@@ -1,7 +1,7 @@
 @extends('layouts.frontpage')
 
 @section('content')
-<div class="fids-board container-fluid px-3 py-3 py-md-4">
+<div class="fids-board container-fluid px-10 py-10">
     <div class="fids-header">
         <img class="fids-header-logo" src="{{ asset('logo/logo_kemenhub.PNG') }}" alt="Logo Kemenhub">
         <h1 class="fids-header-title">Bandar Udara Muara Bungo</h1>
@@ -11,7 +11,7 @@
     <section class="fids-section mt-4">
         <div class="fids-section-head">
             <div class="fids-section-icon rotate-45">✈</div>
-            <h2>Arrivals</h2>
+            <h1 class="mb-0">Arrivals</h1>
         </div>
         <div class="table-responsive">
             <table class="fids-table">
@@ -70,7 +70,7 @@
     <section class="fids-section mt-4">
         <div class="fids-section-head">
             <div class="fids-section-icon rotate--45">✈</div>
-            <h2>Departures</h2>
+            <h1 class="mb-0">Departures</h1>
         </div>
         <div class="table-responsive">
             <table class="fids-table">
@@ -113,7 +113,7 @@
                             {{ $flight?->scheduled_time ? \Illuminate\Support\Carbon::parse($flight->scheduled_time)->format('H:i') : '-' }}
                         </td>
                         <td>
-                            {{ $flight?->gate }}
+                            {{ $flight?->gate ?? '-' }}
                         </td>
                         <td>
                             @if ($flight)
