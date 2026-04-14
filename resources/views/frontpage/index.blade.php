@@ -77,7 +77,7 @@
                 <thead>
                     <tr>
                         <th class="w-col-1">NO</th>
-                        <th class="w-col-2">Airline</th>
+                        <th class="w-col-4">Airline</th>
                         <th class="w-col-3">Flight Number</th>
                         <th>Destination</th>
                         <th>Schedule</th>
