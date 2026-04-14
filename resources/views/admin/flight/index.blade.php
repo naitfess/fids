@@ -184,7 +184,7 @@
                                             data-delayed-until="{{ $departure_flight->delayed_until ?? '' }}">
                                             <i class="bi bi-three-dots"></i>
                                         </a>
-                                        <a href="{{ route('flight.edit', $departure_flight->id) }}"
+                                        <a href="{{ route('admin.flight.edit', $departure_flight->id) }}"
                                             class="btn btn-sm btn-warning"><i class="bi bi-sliders2"></i></a>
                                         <form action="{{ route('admin.flight.destroy', $departure_flight->id) }}"
                                             method="POST" class="d-inline">

@@ -17,9 +17,9 @@
             <table class="fids-table">
                 <thead>
                     <tr>
-                        <th>NO</th>
-                        <th>Airline</th>
-                        <th>Flight Number</th>
+                        <th class="w-col-1">NO</th>
+                        <th class="w-col-2">Airline</th>
+                        <th class="w-col-3">Flight Number</th>
                         <th>Origin</th>
                         <th>Schedule</th>
                         <th>Status</th>
@@ -76,9 +76,9 @@
             <table class="fids-table">
                 <thead>
                     <tr>
-                        <th>NO</th>
-                        <th>Airline</th>
-                        <th>Flight Number</th>
+                        <th class="w-col-1">NO</th>
+                        <th class="w-col-2">Airline</th>
+                        <th class="w-col-3">Flight Number</th>
                         <th>Destination</th>
                         <th>Schedule</th>
                         <th>Gate</th>
