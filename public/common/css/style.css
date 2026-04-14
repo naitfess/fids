@@ -141,6 +141,11 @@ h1, h2, h3, h4, h5, h6 {
     gap: 0.8rem;
 }
 
+.fids-section-head img{
+    width: 60px !important;
+    margin: 2px 8px;
+}
+
 .fids-section-head h2 {
     margin: 0;
     font-size: clamp(1rem, 2.4vw, 1.55rem);
@@ -207,11 +212,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .fids-airline-logo {
     /* width: 28px; */
-    height: 28px;
+    height: 57px;
     /* border-radius: 6px; */
     object-fit: cover;
     flex-shrink: 0;
     /* border: 1px solid #d8e6f4; */
+    margin: 5px 0;
 }
 
 .fids-footer {
@@ -309,19 +315,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .py-10{
-    padding-top: 4rem !important;
-    padding-bottom: 4rem !important;
-}
-
-.w-col-1{
-    width: 6% !important;
-}
-.w-col-2{
-    width: 17% !important;
-}
-.w-col-3{
-    width: 15% !important;
-}
-.w-col-4{
-    width: 15%;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
 }

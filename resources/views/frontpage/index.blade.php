@@ -10,16 +10,19 @@
     
     <section class="fids-section mt-4">
         <div class="fids-section-head">
-            <div class="fids-section-icon rotate-45">✈</div>
+            {{-- <div class="fids-section-icon rotate-45">✈</div> --}}
+            <div>
+                <img src="{{ asset('logo/arrival.png') }}" alt="arrivals">
+            </div>
             <h1 class="mb-0">Arrivals</h1>
         </div>
         <div class="table-responsive">
             <table class="fids-table">
                 <thead>
                     <tr>
-                        <th class="w-col-1">NO</th>
-                        <th class="w-col-2">Airline</th>
-                        <th class="w-col-3">Flight Number</th>
+                        <th>NO</th>
+                        <th>Airline</th>
+                        <th>Flight Number</th>
                         <th>Origin</th>
                         <th>Schedule</th>
                         <th>Status</th>
@@ -69,16 +72,19 @@
     
     <section class="fids-section mt-4">
         <div class="fids-section-head">
-            <div class="fids-section-icon rotate--45">✈</div>
+            {{-- <div class="fids-section-icon rotate--45">✈</div> --}}
+            <div>
+                <img src="{{ asset('logo/departure.png') }}" alt="departures">
+            </div>
             <h1 class="mb-0">Departures</h1>
         </div>
         <div class="table-responsive">
             <table class="fids-table">
                 <thead>
                     <tr>
-                        <th class="w-col-1">NO</th>
-                        <th class="w-col-4">Airline</th>
-                        <th class="w-col-3">Flight Number</th>
+                        <th>NO</th>
+                        <th>Airline</th>
+                        <th>Flight Number</th>
                         <th>Destination</th>
                         <th>Schedule</th>
                         <th>Gate</th>
