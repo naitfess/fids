@@ -234,7 +234,7 @@ body:has(.frontpage-bg) {
 .fids-table th,
 .fids-table td {
     padding: clamp(0.15rem, 0.6vh, 0.42rem) 0.6rem;
-    font-size: clamp(0.85rem, min(1.8vw, 2.6vh), 2.8rem);
+    font-size: clamp(0.85rem, min(1.7vw, 3.0vh), 2.8rem);
     border-bottom: 1px solid #edf3fa;
     vertical-align: middle;
     white-space: normal;
@@ -247,20 +247,20 @@ body:has(.frontpage-bg) {
    left Schedule/Status misaligned anyway (the extra width arrivals
    gave to Origin pushed everything after it to the right), so each
    table gets its own proportions tuned for its own column count. */
-.fids-table-arrivals .fids-col-no { width: 6%; }
+.fids-table-arrivals .fids-col-no { width: 5%; }
 .fids-table-arrivals .fids-col-airline { width: 17%; }
 .fids-table-arrivals .fids-col-flight { width: 18%; }
-.fids-table-arrivals .fids-col-origin { width: 31%; }
+.fids-table-arrivals .fids-col-origin { width: 29%; }
 .fids-table-arrivals .fids-col-time { width: 12%; white-space: nowrap; }
-.fids-table-arrivals .fids-col-status { width: 16%; }
+.fids-table-arrivals .fids-col-status { width: 19%; }
 
-.fids-table-departures .fids-col-no { width: 6%; }
+.fids-table-departures .fids-col-no { width: 5%; }
 .fids-table-departures .fids-col-airline { width: 17%; }
 .fids-table-departures .fids-col-flight { width: 16%; }
-.fids-table-departures .fids-col-destination { width: 27%; }
+.fids-table-departures .fids-col-destination { width: 26%; }
 .fids-table-departures .fids-col-time { width: 10%; white-space: nowrap; }
 .fids-table-departures .fids-col-gate { width: 8%; white-space: nowrap; }
-.fids-table-departures .fids-col-status { width: 16%; }
+.fids-table-departures .fids-col-status { width: 18%; }
 
 .fids-table th {
     font-weight: 600;
