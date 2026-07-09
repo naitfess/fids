@@ -14,18 +14,18 @@
             <div>
                 <img src="{{ asset('logo/arrival.png') }}" alt="arrivals">
             </div>
-            <h1 class="mb-0">Arrivals</h1>
+            <h2 class="mb-0">Arrivals</h2>
         </div>
         <div class="table-responsive">
-            <table class="fids-table">
+            <table class="fids-table fids-table-arrivals">
                 <thead>
                     <tr>
-                        <th>NO</th>
-                        <th>Airline</th>
-                        <th>Flight Number</th>
-                        <th>Origin</th>
-                        <th>Schedule</th>
-                        <th>Status</th>
+                        <th class="fids-col-no">NO</th>
+                        <th class="fids-col-airline">Airline</th>
+                        <th class="fids-col-flight">Flight Number</th>
+                        <th class="fids-col-origin">Origin</th>
+                        <th class="fids-col-time">Schedule</th>
+                        <th class="fids-col-status">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,19 +76,19 @@
             <div>
                 <img src="{{ asset('logo/departure.png') }}" alt="departures">
             </div>
-            <h1 class="mb-0">Departures</h1>
+            <h2 class="mb-0">Departures</h2>
         </div>
         <div class="table-responsive">
-            <table class="fids-table">
+            <table class="fids-table fids-table-departures">
                 <thead>
                     <tr>
-                        <th>NO</th>
-                        <th>Airline</th>
-                        <th>Flight Number</th>
-                        <th>Destination</th>
-                        <th>Schedule</th>
-                        <th>Gate</th>
-                        <th>Status</th>
+                        <th class="fids-col-no">NO</th>
+                        <th class="fids-col-airline">Airline</th>
+                        <th class="fids-col-flight">Flight Number</th>
+                        <th class="fids-col-destination">Destination</th>
+                        <th class="fids-col-time">Schedule</th>
+                        <th class="fids-col-gate">Gate</th>
+                        <th class="fids-col-status">Status</th>
                     </tr>
                 </thead>
                 <tbody>

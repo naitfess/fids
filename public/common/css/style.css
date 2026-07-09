@@ -85,9 +85,45 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+body:has(.frontpage-bg) {
+    overflow: hidden;
+}
+
+.frontpage-bg {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.fids-board.py-10 {
+    padding-top: clamp(0.5rem, 2vh, 3rem) !important;
+    padding-bottom: clamp(0.5rem, 2vh, 3rem) !important;
+}
+
+.fids-board > .mt-4 {
+    margin-top: clamp(0.4rem, 1.2vh, 1.5rem) !important;
+}
+
+.frontpage-bg > main {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    overflow: hidden;
+}
+
+.frontpage-bg > main > .fids-board {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
 .fids-board {
     width: 100%;
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     --fids-navy: #123a63;
     --fids-blue: #2f76b8;
     --fids-sky: #e9f4ff;
@@ -97,6 +133,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .fids-header {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,12 +142,12 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 16px;
     border: 1px solid #c5dcf3;
     box-shadow: 0 10px 30px rgba(17, 44, 74, 0.12);
-    padding: 0.95rem 1.25rem;
+    padding: clamp(0.4rem, 1.4vh, 0.95rem) 1.25rem;
 }
 
 .fids-header-title {
     margin: 0;
-    font-size: clamp(3rem, 3.5vw, 4.5rem);
+    font-size: clamp(1.4rem, min(3.5vw, 5vh), 4.5rem);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -119,7 +156,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .fids-header-logo {
-    height: 80px;
+    height: clamp(32px, 7vh, 80px);
     width: auto;
     object-fit: contain;
 }
@@ -130,25 +167,30 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 12px 30px rgba(13, 46, 84, 0.08);
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-height: 0;
 }
 
 .fids-section-head {
+    flex: 0 0 auto;
     background: linear-gradient(90deg, var(--fids-navy) 0%, var(--fids-blue) 100%);
     color: #f7fbff;
-    padding: 0.55rem 1rem;
+    padding: clamp(0.3rem, 1vh, 0.55rem) 1rem;
     display: flex;
     align-items: center;
     gap: 0.8rem;
 }
 
 .fids-section-head img{
-    width: 60px !important;
+    width: clamp(28px, 5vh, 60px) !important;
     margin: 2px 8px;
 }
 
 .fids-section-head h2 {
     margin: 0;
-    font-size: clamp(1rem, 2.4vw, 1.55rem);
+    font-size: clamp(0.85rem, min(2.4vw, 3vh), 1.55rem);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -175,20 +217,50 @@ h1, h2, h3, h4, h5, h6 {
     transform: rotate(-45deg);
 }
 
+.fids-section .table-responsive {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
 .fids-table {
     width: 100%;
+    height: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     background-color: #fff;
 }
 
 .fids-table th,
 .fids-table td {
-    padding: 0.42rem 0.75rem;
-    font-size: clamp(2rem, 1.8vw, 2.8rem);
+    padding: clamp(0.15rem, 0.6vh, 0.42rem) 0.6rem;
+    font-size: clamp(0.85rem, min(1.8vw, 2.6vh), 2.8rem);
     border-bottom: 1px solid #edf3fa;
     vertical-align: middle;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
+
+/* Arrivals (6 columns) and departures (7 columns) are sized
+   independently: forcing shared column widths across both tables
+   left Schedule/Status misaligned anyway (the extra width arrivals
+   gave to Origin pushed everything after it to the right), so each
+   table gets its own proportions tuned for its own column count. */
+.fids-table-arrivals .fids-col-no { width: 6%; }
+.fids-table-arrivals .fids-col-airline { width: 17%; }
+.fids-table-arrivals .fids-col-flight { width: 18%; }
+.fids-table-arrivals .fids-col-origin { width: 31%; }
+.fids-table-arrivals .fids-col-time { width: 12%; white-space: nowrap; }
+.fids-table-arrivals .fids-col-status { width: 16%; }
+
+.fids-table-departures .fids-col-no { width: 6%; }
+.fids-table-departures .fids-col-airline { width: 17%; }
+.fids-table-departures .fids-col-flight { width: 16%; }
+.fids-table-departures .fids-col-destination { width: 27%; }
+.fids-table-departures .fids-col-time { width: 10%; white-space: nowrap; }
+.fids-table-departures .fids-col-gate { width: 8%; white-space: nowrap; }
+.fids-table-departures .fids-col-status { width: 16%; }
 
 .fids-table th {
     font-weight: 600;
@@ -212,28 +284,29 @@ h1, h2, h3, h4, h5, h6 {
 
 .fids-airline-logo {
     /* width: 28px; */
-    height: 57px;
+    height: clamp(20px, 6vh, 57px);
     /* border-radius: 6px; */
-    object-fit: cover;
+    object-fit: contain;
     flex-shrink: 0;
     /* border: 1px solid #d8e6f4; */
     margin: 5px 0;
 }
 
 .fids-footer {
+    flex: 0 0 auto;
     display: grid;
-    grid-template-columns: 1fr 250px;
+    grid-template-columns: 1fr clamp(150px, 15vw, 300px);
     gap: 0.75rem;
 }
 
 .fids-running-text {
     background: linear-gradient(90deg, #ecf6ff 0%, #d8ebff 100%);
     color: #193954;
-    font-size: clamp(0.95rem, 2.2vw, 1.5rem);
+    font-size: clamp(0.8rem, min(2.2vw, 3vh), 1.5rem);
     font-weight: 600;
     display: flex;
     align-items: center;
-    min-height: 80px;
+    height: clamp(44px, 9vh, 80px);
     border: 1px solid #d2e3f4;
     border-radius: 12px;
     overflow: hidden;
@@ -242,7 +315,7 @@ h1, h2, h3, h4, h5, h6 {
 .fids-running-track {
     position: relative;
     width: 100%;
-    height: 80px;
+    height: clamp(44px, 9vh, 80px);
     overflow: hidden;
 }
 
@@ -256,7 +329,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0 1rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    font-size: 2.5rem;
+    font-size: clamp(1rem, min(2.2vw, 3.6vh), 2.5rem);
 }
 
 .fids-clock-box {
@@ -266,23 +339,64 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 70px;
+    min-height: clamp(44px, 9vh, 70px);
     padding: 0.45rem;
     border-radius: 12px;
 }
 
 .fids-time {
-    font-size: clamp(1.5rem, 1.8vw, 2.8rem);
+    font-size: clamp(0.75rem, min(1.4vw, 2.2vh), 2.2rem);
     font-weight: 700;
     line-height: 1.2;
+    white-space: nowrap;
 }
 
 .fids-date {
-    font-size: clamp(1.5rem, 1.8vw, 2.8rem);
+    font-size: clamp(0.75rem, min(1.4vw, 2.2vh), 2.2rem);
     margin-top: 0.25rem;
     line-height: 1.1;
     opacity: 0.95;
     font-weight: bold;
+    white-space: nowrap;
+}
+
+.px-10{
+    padding-right: 6rem !important;
+    padding-left: 6rem !important;
+}
+
+.py-10{
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+}
+
+@media (max-width: 1440px) {
+    .px-10 {
+        padding-right: 3rem !important;
+        padding-left: 3rem !important;
+    }
+
+    .py-10 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .px-10 {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+
+    .py-10 {
+        padding-top: 1.25rem !important;
+        padding-bottom: 1.25rem !important;
+    }
+
+    .fids-table th,
+    .fids-table td {
+        padding: 0.4rem 0.5rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -305,16 +419,29 @@ h1, h2, h3, h4, h5, h6 {
 
     .fids-table th,
     .fids-table td {
-        padding: 0.38rem 0.55rem;
+        padding: 0.38rem 0.4rem;
+        font-size: clamp(0.7rem, min(2.6vw, 2.6vh), 2.8rem);
     }
 }
 
-.px-10{
-    padding-right: 6rem !important;
-    padding-left: 6rem !important;
-}
+@media (max-width: 576px) {
+    .px-10 {
+        padding-right: 0.75rem !important;
+        padding-left: 0.75rem !important;
+    }
 
-.py-10{
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
+    .py-10 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .fids-table th,
+    .fids-table td {
+        padding: 0.3rem 0.3rem;
+        font-size: clamp(0.6rem, min(3vw, 2.6vh), 2.8rem);
+    }
+
+    .fids-airline-logo {
+        height: 34px;
+    }
 }
